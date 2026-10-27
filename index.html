@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etapa 3</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  min-height: 100%;
+  background: #000;
+  color: #fff;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.screen {
+  display: none;
+  max-width: 720px;
+  width: 100%;
+  animation: fadeIn .8s ease;
+}
+.screen.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+
+h1 {
+  font-size: 1.2rem;
+  letter-spacing: .28em;
+  margin-bottom: 1.6rem;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+p { line-height: 1.85; margin-bottom: 1.1rem; font-size: .95rem; color: #ddd; }
+strong { color:#fff; }
+
+button {
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+  font-family: inherit;
+  padding: .7rem 1.6rem;
+  cursor: pointer;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-size: .8rem;
+  transition: all .2s;
+  margin-top: 1rem;
+}
+button:hover { border-color: #c00; color: #c00; }
+
+.card-icon {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 1.6rem;
+  letter-spacing: .6rem;
+  color: #c00;
+}
+
+.label {
+  display: block;
+  color: #c00;
+  letter-spacing: .2em;
+  font-size: .68rem;
+  text-transform: uppercase;
+  margin: .2rem 0 .5rem;
+}
+
+/* —— Representación del logaritmo —— */
+.math {
+  text-align: center;
+  margin: 2.2rem 0 1rem;
+  font-family: 'Times New Roman', 'Georgia', serif;
+  font-size: 2.4rem;
+  color: #fff;
+  letter-spacing: .04em;
+  user-select: none;
+}
+.math .base {
+  color: #c00;
+  font-weight: bold;
+  font-size: .62em;
+  vertical-align: sub;
+  padding: 0 .06em;
+}
+.math .arg { font-size: .92em; }
+
+/* —— Bloque del mensaje cifrado —— */
+.b64 {
+  border: 1px solid #2a2a2a;
+  padding: 1.2rem 1.3rem;
+  margin: 1.5rem 0;
+  font-size: .68rem;
+  line-height: 1.65;
+  color: #aaa;
+  word-break: break-all;
+  letter-spacing: .02em;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.b64::before {
+  content: "◆ Mensaje cifrado";
+  display: block;
+  color: #c00;
+  font-style: normal;
+  letter-spacing: .22em;
+  font-size: .65rem;
+  margin-bottom: .7rem;
+  text-transform: uppercase;
+}
+
+/* —— Portal final —— */
+.portal {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid #1a1a1a;
+}
+.portal p {
+  color: #888;
+  font-size: .78rem;
+  letter-spacing: .12em;
+  margin-bottom: 1.1rem;
+}
+.portal a {
+  display: inline-block;
+  border: 1px solid #444;
+  padding: .8rem 1.8rem;
+  text-decoration: none;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-size: .78rem;
+  color: #fff;
+  transition: all .2s;
+}
+.portal a:hover { border-color: #c00; color: #c00; }
+</style>
+</head>
+<body>
+
+<!-- ▸ Pantalla 0 · Felicitación -->
+<div class="screen active" id="s0">
+  <div class="card-icon">♔ ♕ ♖ ♗</div>
+  <h1>Felicidades, Jugador</h1>
+  <p>Has cruzado una nueva frontera. La segunda etapa ha caído, y el torneo reconoce tu mérito.</p>
+  <p>Lo que sigue ya no se gana con fuerza, sino con estrategia, intuición y silencio. Los próximos desafíos exigirán que observes aquello que otros pasan por alto.</p>
+  <p>A continuación, tus recompensas.</p>
+  <button onclick="go('s1')">Ver recompensas</button>
+</div>
+
+<!-- ▸ Pantalla 1 · Recompensas -->
+<div class="screen" id="s1">
+  <h1>Recompensas de la etapa</h1>
+
+  <span class="label">Tercer juego — Ajedrez</span>
+  <p>El tercer juego del torneo está vinculado al <strong>ajedrez</strong>. Pero no te confíes: incluso un jugador experto podría perderlo con total tranquilidad. Aquí las reglas tradicionales no aplican. Solo se usarán las fichas para que los jugadores se enfrenten <strong>uno contra uno</strong>, protegiendo ciertos puntos del tablero. La partida no se gana con jugadas, sino con <strong>criterio</strong>.</p>
+
+  <span class="label" style="margin-top:1.6rem;">Cuarto juego — Póker</span>
+  <p>El cuarto juego del torneo es una variante del <strong>póker</strong>, disputada con tan solo <strong>diez cartas</strong>. Enfrentamientos <strong>uno contra uno</strong>. Pocas cartas, pero cada una pesa el doble. No vencerá quien tenga la mejor mano, sino quien sepa leer al rival.</p>
+
+  <button onclick="go('s2')">Ver pistas</button>
+</div>
+
+<!-- ▸ Pantalla 2 · Pistas -->
+<div class="screen" id="s2">
+  <h1>Siguientes pistas</h1>
+  <p>He aquí las dos pistas que te conducirán a la siguiente fase:</p>
+
+  <!-- Representación visual del logaritmo (base resaltada) -->
+  <div class="math">log<span class="base">64</span>(<span class="arg">x</span>)</div>
+
+  <!-- Código en base 64 -->
+  <div class="b64">SW5zdHJ1Y2Npb25lcyBwYXJhIGxvcyBwYXJ0aWNpcGFudGVzOlBhcmEgb2J0ZW5lciB0dSBwYXNlIGEgbGFzIEJpb2xpbXBpYWRhcywgZGViZXLDoXMgZGVzY2lmcmFyIGVsIGPDs2RpZ28gbnVtw6lyaWNvIGRlIDQgY29tcG9uZW50ZXMgZXNlbmNpYWxlcyAoUiwgRywgQiwgQSkgcXVlIHJldmVsYW4gbGEgdG9uYWxpZGFkIGRlIGxhIHZpZGEuSW5ncmVzYSBhIGxhIGhlcnJhbWllbnRhIHJnYmNvbG9ycGlja2VyLmNvbSBlIGludHJvZHVjZSBjYWRhIHZhbG9yIGVuIHN1IHJlc3BlY3RpdmEgY2FzaWxsYSAoUiwgRywgQiwgQSkuIEFsIGhhY2VybG8sIGxhIGhlcnJhbWllbnRhIHRlIGdlbmVyYXLDoSB1biBjw7NkaWdvIGhleGFkZWNpbWFsLiBUb21hIGxvcyBwcmltZXJvcyA2IGNhcmFjdGVyZXMgKGNvbiBzdSBudW1lcmFsICMpIGRlIGRpY2hvIGPDs2RpZ28geSBlbnbDrWFsbyBpbm1lZGlhdGFtZW50ZSBhbCBudW1lcm8gZGUgd2hhdHNhcHA6IDYyMzUwMDA3IHBhcmEgdmVyaWZpY2FyIHR1IHJlc3B1ZXN0YS4KClI6ICJMbGV2byBlbiBtaSBub21icmUgZG9zIHZlY2VzIGVsIGRpZXogbXVsdGlwbGljYWRvIHBvciBzw60gbWlzbW8sIHN1bWFkb3MgYSBlbCBudW1lcm8gdHJlcyBqdW50byBhIGFsZ28gc2luIHZhbG9yLiIKRzogIlNveSBlbCBhbCBzZWlzIHkganVudG8gYSBtaSBlc3RhIGVsIG51bWVybyBwYXIgcXVlIHZpZW5lIGRlc3B1ZXMgZGUgbWkiCkI6ICJNdWx0aXBsaWNhIGxvcyBkZWRvcyBkZSB1bmEgbWFubyBwb3IgZWwgbsO6bWVybyBkZSB0ZW50YWN1bG9zIGRlIHVuIHB1bHBvIgpBOiAiUmVwcmVzZW50byBsYSB1bmlkYWQgYWJzb2x1dGEsIGxvIGNvbXBsZXRvIHkgbGEgb3BhY2lkYWQgdG90YWwuIg==</div>
+
+  <!-- Portal -->
+  <div class="portal">
+    <p>La siguiente herramienta te espera:</p>
+    <a href="https://rgbcolorpicker.com/" target="_blank" rel="noopener">rgbcolorpicker.com</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  window.go = function(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target){
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+})();
+</script>
+</body>
+</html>
